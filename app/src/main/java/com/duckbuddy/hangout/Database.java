@@ -102,10 +102,9 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public Cafe cafeAl(int id){
-        String selectQuery = "SELECT * FROM " + TABLO_ISMI + " WHERE id="+id;
+        String selectQuery = "SELECT * FROM " + TABLO_ISMI + " WHERE id=" + (id+1);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-
         cursor.moveToFirst();
 
         int kafeIsmiIndex = cursor.getColumnIndex(KAFE_ISIM);
@@ -128,10 +127,10 @@ public class Database extends SQLiteOpenHelper {
                     cursor.getInt(kafeYildiziIndex),
                     cursor.getDouble(kafeEnlemIndex),
                     cursor.getDouble(kafeBoylamIndex));
+            cursor.close();
+            db.close();
             return cafe;
         }
-        cursor.close();
-        db.close();
         return null;
     }
 

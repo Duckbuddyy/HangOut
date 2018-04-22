@@ -1,16 +1,17 @@
 package com.duckbuddy.hangout;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 
 public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
@@ -18,11 +19,13 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
     private Context context;
     private ArrayList<Cafe> cafeList;
     private LayoutInflater layoutInflater;
+    private MainActivity mainActivity;
 
-    CafeAdapter(Context context, ArrayList<Cafe> cafeList){
+    CafeAdapter(Context context, ArrayList<Cafe> cafeList,MainActivity mainActivity){
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.cafeList = cafeList;
+        this.mainActivity = mainActivity;
     }
 
     @NonNull
@@ -46,10 +49,9 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
     class MyViewHolder extends RecyclerView.ViewHolder{//xmlden javaya findviewbyid
         TextView cafeTittle, cafeSubTittle;
         ImageView cafePicture;
-        CardView cardView;
         int position;
 
-        private MyViewHolder(View itemView) {
+        private MyViewHolder(final View itemView) {
             super(itemView);
             cafeTittle = itemView.findViewById(R.id.cafeTitle);
             cafeSubTittle = itemView.findViewById(R.id.cafeSubTitle);
@@ -58,7 +60,13 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Deneme" + position, Toast.LENGTH_SHORT).show();
+                    Pair [] pairs = new Pair[2];
+                    pairs[0] = new Pair<View, String>(cafePicture,"iv_effect");
+                    pairs[1] = new Pair<View, String>(cafeTittle,"tv_effect");
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mainActivity,pairs);
+                    Intent intent = new Intent (v.getContext(), Main2Activity.class);
+                    intent.putExtra("Pozisyon",position);
+                    v.getContext().startActivity(intent,options.toBundle());
                 }
             });
         }
@@ -69,7 +77,6 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
             this.cafePicture.setImageResource(cafe.getCafeFotografId());
             this.position = position;
         }
-
     }
 
 }

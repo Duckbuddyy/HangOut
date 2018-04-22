@@ -1,7 +1,9 @@
 package com.duckbuddy.hangout;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,13 +23,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         veritabani = new Database(getApplicationContext());
+        getWindow().setAllowReturnTransitionOverlap(false);
 
         veritabaniKur();
         toolbarAyarla();
         recyclerViewAyarla();
         drawerAyarla();
 
+    }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Çıkış")
+                .setMessage("Uygulamadan çıkmak istiyor musunuz ?")
+                .setNegativeButton("Hayır", null)
+                .setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        System.exit(0);
+                    }
+                })
+                .create().show();
     }
 
     private void drawerAyarla() {
@@ -40,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void recyclerViewAyarla() {
         recyclerView = findViewById(R.id.recyclerView);
-        CafeAdapter cafeAdapter = new CafeAdapter(this,veritabani.tumKafeleriAl());
+        CafeAdapter cafeAdapter = new CafeAdapter(this,veritabani.tumKafeleriAl(),this);
         recyclerView.setAdapter(cafeAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
