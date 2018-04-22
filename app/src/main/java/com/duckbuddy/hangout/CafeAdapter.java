@@ -46,6 +46,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
     class MyViewHolder extends RecyclerView.ViewHolder{//xmlden javaya findviewbyid
         TextView cafeTittle, cafeSubTittle;
         ImageView cafePicture;
+        CardView cardView;
         int position;
 
         private MyViewHolder(View itemView) {
@@ -68,6 +69,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
             this.cafePicture.setImageResource(cafe.getCafeFotografId());
             this.position = position;
         }
+
     }
 
 }
