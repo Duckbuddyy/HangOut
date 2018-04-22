@@ -15,11 +15,13 @@ import java.util.ArrayList;
 
 public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
 
-    ArrayList<Cafe> cafeList;
-    LayoutInflater layoutInflater;
+    private Context context;
+    private ArrayList<Cafe> cafeList;
+    private LayoutInflater layoutInflater;
 
-    public CafeAdapter(Context context, ArrayList<Cafe> cafeList){
-        layoutInflater = LayoutInflater.from(context);
+    CafeAdapter(Context context, ArrayList<Cafe> cafeList){
+        this.context = context;
+        this.layoutInflater = LayoutInflater.from(context);
         this.cafeList = cafeList;
     }
 
@@ -27,8 +29,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {//ilk açılış inflate
         View view = layoutInflater.inflate(R.layout.list_item, parent,false);
-        MyViewHolder myViewHolder = new MyViewHolder(view);
-        return  myViewHolder;
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -42,32 +43,26 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
         return cafeList.size();
     }
 
-    public void tiklandi(int position){
-        //Intent ıntent = new Intent(Main2Activity.class);
-    }
-
     class MyViewHolder extends RecyclerView.ViewHolder{//xmlden javaya findviewbyid
         TextView cafeTittle, cafeSubTittle;
         ImageView cafePicture;
-        CardView cardView;
-        int position = 0;
+        int position;
 
-        public MyViewHolder(View itemView) {
+        private MyViewHolder(View itemView) {
             super(itemView);
             cafeTittle = itemView.findViewById(R.id.cafeTitle);
             cafeSubTittle = itemView.findViewById(R.id.cafeSubTitle);
             cafePicture = itemView.findViewById(R.id.cafePicture);
-            cardView = itemView.findViewById(R.id.cardView);
 
-            cardView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tiklandi(position);
+                    Toast.makeText(context, "Deneme" + position, Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
-        public void setCafe(Cafe cafe, int position) {
+        private void setCafe(Cafe cafe, int position) {
             this.cafeTittle.setText(cafe.getCafeIsmi());
             this.cafeSubTittle.setText(cafe.getCafeAdresi());
             this.cafePicture.setImageResource(cafe.getCafeFotografId());
