@@ -5,9 +5,9 @@
 
     <objectAnimator
         android:propertyName="scaleX"
-        android:duration="150"
+        android:duration="140"
         android:valueFrom="1.0"
-        android:valueTo="1.4"
+        android:valueTo="1.5"
         android:valueType="floatType"
         android:repeatMode="reverse"
         android:repeatCount="1">
@@ -15,9 +15,9 @@
 
     <objectAnimator
         android:propertyName="scaleY"
-        android:duration="200"
+        android:duration="170"
         android:valueFrom="1.0"
-        android:valueTo="1.4"
+        android:valueTo="1.5"
         android:valueType="floatType"
         android:repeatMode="reverse"
         android:repeatCount="1">

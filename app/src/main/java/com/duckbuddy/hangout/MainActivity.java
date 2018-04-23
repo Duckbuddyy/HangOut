@@ -11,27 +11,27 @@ import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.Toast;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     public static Database veritabani;
-    public static Database veritabaniFavoriler;
     Toolbar toolbar;
     RecyclerView recyclerView;
+    CafeAdapter cafeAdapter, cafeAdapter2;
+    LayoutAnimationController animationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        veritabani = new Database(getApplicationContext());
-        veritabaniFavoriler = new Database(getApplicationContext());
         getWindow().setAllowReturnTransitionOverlap(false);
 
         veritabaniKur();
         recyclerViewAyarla();
-        toolbarAyarla();
         drawerAyarla();
-
+        toolbarAyarla();
     }
 
     @Override
@@ -59,12 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void recyclerViewAyarla() {
         recyclerView = findViewById(R.id.recyclerView);
-        CafeAdapter cafeAdapter = new CafeAdapter(this,veritabani.tumKafeleriAl(),this);
+        cafeAdapter = new CafeAdapter(this,veritabani.tumKafeleriAl(),this);
+
         recyclerView.setAdapter(cafeAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(getApplicationContext(),R.anim.recycler_animation_top);
+        animationController = AnimationUtils.loadLayoutAnimation(getApplicationContext(),R.anim.recycler_animation_top);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setLayoutAnimation(animationController);
     }
@@ -87,8 +88,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void veritabaniKur() {
+        veritabani = new Database(getApplicationContext());
         veritabani.cafeEkle(new Cafe("Leman Kültür",
-                "1. Murat Mahallesi, Zübeyda Hanım Cad. No:28, 22030 Merkez/Edirne",
+                "1. Murat Mahallesi, Zübeyde Hanım Cad. No:28, 22030 Merkez/Edirne",
                 "(0284) 225 69 71",
                 R.drawable.indir,
                 R.drawable.indir2,
@@ -97,14 +99,35 @@ public class MainActivity extends AppCompatActivity {
         veritabani.cafeEkle(new Cafe("David People",
                 "1. Murat Mahallesi, Zübeyde Hanım Cad. No:22, 22030 Merkez/Edirne",
                 "(0284) 225 6971",
-                R.drawable.indir,
+                R.drawable.indir2,
                 R.drawable.indir2,
                 R.drawable.indir3,
                 5,0,41.667398,26.5760578));
         veritabani.cafeEkle(new Cafe("Kada",
                 "1. Murat Mahallesi, Bülent Alamut Cd. No:9, 22030 Merkez/Edirne",
                 "(0533) 607 8999",
+                R.drawable.indir3,
+                R.drawable.indir2,
+                R.drawable.indir3,
+                3,0,41.6613592,26.5834329));
+        veritabani.cafeEkle(new Cafe("Leman Kültür2",
+                "1. Murat Mahallesi, Zübeyde Hanım Cad. No:28, 22030 Merkez/Edirne",
+                "(0284) 225 69 71",
+                R.drawable.indir4,
+                R.drawable.indir2,
+                R.drawable.indir3,
+                4,0,41.667454, 26.576247));
+        veritabani.cafeEkle(new Cafe("David People2",
+                "1. Murat Mahallesi, Zübeyde Hanım Cad. No:22, 22030 Merkez/Edirne",
+                "(0284) 225 6971",
                 R.drawable.indir,
+                R.drawable.indir2,
+                R.drawable.indir3,
+                5,0,41.667398,26.5760578));
+        veritabani.cafeEkle(new Cafe("Kada2",
+                "1. Murat Mahallesi, Bülent Alamut Cd. No:9, 22030 Merkez/Edirne",
+                "(0533) 607 8999",
+                R.drawable.indir2,
                 R.drawable.indir2,
                 R.drawable.indir3,
                 3,0,41.6613592,26.5834329));

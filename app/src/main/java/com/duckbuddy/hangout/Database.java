@@ -73,9 +73,10 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
-    public void cafeSil(int cafeID){
+    public void cafeSil(String kafeIsmi){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLO_ISMI, KAFE_ID + " = ?",new String[] {String.valueOf(cafeID)});
+        String deleteRow = "DELETE FROM " + TABLO_ISMI + " WHERE isim = \"" + kafeIsmi + "\"";
+        db.execSQL(deleteRow);
         db.close();
     }
 
@@ -100,10 +101,11 @@ public class Database extends SQLiteOpenHelper {
             deneme = cursor.getInt(kafeIdIndex);
         cursor.close();
         db.close();
-        return deneme;
+        return deneme-1;
     }
 
-    public void cafeFavoriDegistir(Cafe cafe,int id) {
+    public void cafeFavoriDegistir(int id) {
+        Cafe cafe = MainActivity.veritabani.cafeAl(id);
         SQLiteDatabase db = this.getWritableDatabase();
         if(cafe.getFavori() == 0)
             cafe.setFavori(1);
@@ -115,6 +117,41 @@ public class Database extends SQLiteOpenHelper {
 
     public Cafe cafeAl(int id){
         String selectQuery = "SELECT * FROM " + TABLO_ISMI + " WHERE id=" + (id+1);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+
+        int kafeIsmiIndex = cursor.getColumnIndex(KAFE_ISIM);
+        int kafeAdresiIndex = cursor.getColumnIndex(KAFE_ADRES);
+        int kafeTelefonuIndex = cursor.getColumnIndex(KAFE_TELEFON);
+        int kafeFotografIndex = cursor.getColumnIndex(KAFE_FOTOGRAF);
+        int kafeFotografIndex2 = cursor.getColumnIndex(KAFE_FOTOGRAF2);
+        int kafeFotografIndex3 = cursor.getColumnIndex(KAFE_FOTOGRAF3);
+        int kafeYildiziIndex = cursor.getColumnIndex(KAFE_YILDIZ);
+        int kafeFavoriIndex = cursor.getColumnIndex(KAFE_FAVORI);
+        int kafeEnlemIndex = cursor.getColumnIndex(KAFE_ENLEM);
+        int kafeBoylamIndex = cursor.getColumnIndex(KAFE_BOYLAM);
+
+        if(cursor.getCount() > 0){
+            Cafe cafe = new Cafe(cursor.getString(kafeIsmiIndex),
+                    cursor.getString(kafeAdresiIndex),
+                    cursor.getString(kafeTelefonuIndex),
+                    cursor.getInt(kafeFotografIndex),
+                    cursor.getInt(kafeFotografIndex2),
+                    cursor.getInt(kafeFotografIndex3),
+                    cursor.getInt(kafeYildiziIndex),
+                    cursor.getInt(kafeFavoriIndex),
+                    cursor.getDouble(kafeEnlemIndex),
+                    cursor.getDouble(kafeBoylamIndex));
+            cursor.close();
+            db.close();
+            return cafe;
+        }
+        return null;
+    }
+
+    public Cafe cafeAl(String isim){
+        String selectQuery = "SELECT * FROM " + TABLO_ISMI + " WHERE " + KAFE_ISIM + " = \"" + isim + "\"";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         cursor.moveToFirst();
@@ -248,7 +285,9 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         cursor.moveToFirst();
         int kafeFavoriIndex = cursor.getColumnIndex(KAFE_FAVORI);
-        return cursor.getInt(kafeFavoriIndex);
+        int returnValue = cursor.getInt(kafeFavoriIndex);
+        cursor.close();
+        return returnValue;
     }
 
 }

@@ -50,15 +50,14 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
         return cafeList.size();
     }
 
-    public void ekle(){
-
-    }
-
-    public void cikar(){
-
+    public void deleteFavouriteDatabase(int position){
+        cafeList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,cafeList.size());
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{//xmlden javaya findviewbyid
+        Cafe cafe;
         TextView cafeTittle, cafeSubTittle;
         ImageView cafePicture,iconfavourite;
         int position;
@@ -70,7 +69,6 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
             cafePicture = itemView.findViewById(R.id.cafePicture);
             iconfavourite = itemView.findViewById(R.id.iconFavourite);
 
-
             iconfavourite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -78,28 +76,27 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
                     animator.setTarget(iconfavourite);
                     if (MainActivity.veritabani.cafeFavoriMi(position) == 0) {
                         iconfavourite.setImageResource(R.drawable.ic_favourite_fill);
-                        animator.start();
-                        MainActivity.veritabani.cafeFavoriDegistir(MainActivity.veritabani.cafeAl(position),position);
+                        MainActivity.veritabani.cafeFavoriDegistir(position);
                         Snackbar snackbar = Snackbar.make(view, cafeTittle.getText() + " Favorilerinize Eklendi !", Snackbar.LENGTH_SHORT);
                         snackbar.setAction("Geri Al", new View.OnClickListener() {
                             @Override
-                            public void onClick(View view) { Snackbar.make(view, cafeTittle.getText() + " Favorilerinizden Çıkarıldı !", Snackbar.LENGTH_SHORT).show();
-                                MainActivity.veritabani.cafeFavoriDegistir(MainActivity.veritabani.cafeAl(position),position);
+                            public void onClick(View view) {
                                 iconfavourite.setImageResource(R.drawable.ic_favourite_border);
+                                Snackbar.make(view, cafeTittle.getText() + " Favorilerinizden Çıkarıldı !", Snackbar.LENGTH_SHORT).show();
+                                MainActivity.veritabani.cafeFavoriDegistir(position);
                                 animator.start();
                                 }
                             });
                         snackbar.show();
-                        ekle();
+                        animator.start();
                     } else {
+                        MainActivity.veritabani.cafeFavoriDegistir(position);
                         Snackbar.make(view, cafeTittle.getText() + " Favorilerinizden Çıkarıldı !", Snackbar.LENGTH_SHORT).show();
-                        MainActivity.veritabani.cafeFavoriDegistir(MainActivity.veritabani.cafeAl(position),position);
                         iconfavourite.setImageResource(R.drawable.ic_favourite_border);
                         animator.start();
-                        cikar();
-                        }
                     }
-                });
+                }
+            });
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +119,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
             this.cafeSubTittle.setText(cafe.getCafeAdresi());
             this.cafePicture.setImageResource(cafe.getCafeFotografId());
             this.position = position;
+            this.cafe = cafe;
         }
     }
 
