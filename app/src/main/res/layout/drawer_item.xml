@@ -10,12 +10,11 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:contentDescription="@string/app_name"
-        android:layout_marginLeft="16dp"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
         android:id="@+id/drawerIcon"
-        />
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="16dp"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:layout_width="match_parent"

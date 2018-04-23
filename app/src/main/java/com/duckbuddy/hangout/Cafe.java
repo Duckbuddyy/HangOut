@@ -1,17 +1,15 @@
 package com.duckbuddy.hangout;
 
-import java.util.ArrayList;
-
 public class Cafe {
     private String cafeIsmi, cafeAdresi, cafeTelefonu;
-    private int cafeFotografId , cafeFotografId2 , cafeFotografId3, cafeYildizi;
+    private int cafeFotografId , cafeFotografId2 , cafeFotografId3, cafeYildizi, favori;
     private Double cafeEnlem,cafeBoylam;
 
     public Cafe(){ }
 
     public Cafe(String cafeIsmi, String cafeAdresi, String cafeTelefonu,
                 int cafeFotografId, int cafeFotografId2,
-                int cafeFotografId3, int cafeYildizi,
+                int cafeFotografId3, int cafeYildizi, int favoriMi,
                 Double cafeEnlem, Double cafeBoylam) {
         this.cafeIsmi = cafeIsmi;
         this.cafeAdresi = cafeAdresi;
@@ -20,6 +18,7 @@ public class Cafe {
         this.cafeFotografId2 = cafeFotografId2;
         this.cafeFotografId3 = cafeFotografId3;
         this.cafeYildizi = cafeYildizi;
+        this.favori = favoriMi;
         this.cafeEnlem = cafeEnlem;
         this.cafeBoylam = cafeBoylam;
     }
@@ -37,6 +36,10 @@ public class Cafe {
     public int getCafeFotografId3() { return cafeFotografId3; }
 
     public int getCafeYildizi() { return cafeYildizi; }
+
+    public int getFavori() { return favori; }
+
+    public void setFavori(int favori) { this.favori = favori;}
 
     public Double getCafeEnlem() { return cafeEnlem; }
 

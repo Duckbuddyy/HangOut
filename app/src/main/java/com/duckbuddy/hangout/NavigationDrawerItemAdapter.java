@@ -45,6 +45,7 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
 
         TextView drawerTitle;
         ImageView drawerIcon;
+        int position;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -61,6 +62,7 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
         public void setData(NavigationDrawerItem item, int position) {
             this.drawerTitle.setText(item.getBaslik());
             this.drawerIcon.setImageResource(item.getIconId());
+            this.position = position;
         }
 
     }

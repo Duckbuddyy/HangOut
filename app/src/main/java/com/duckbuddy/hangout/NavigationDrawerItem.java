@@ -31,7 +31,7 @@ public class NavigationDrawerItem {
     }
 
     private static int[] iconDizi(){
-        return new int[]{R.drawable.ic_drawer_home,R.drawable.ic_drawer_favourite};
+        return new int[]{R.drawable.ic_home,R.drawable.ic_favourite_border};
     }
 
 }
