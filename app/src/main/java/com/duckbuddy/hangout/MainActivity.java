@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
         veritabaniKur();
         recyclerViewAyarla();
-        drawerAyarla();
         toolbarAyarla();
+        drawerAyarla();
     }
 
     @Override

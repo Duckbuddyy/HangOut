@@ -32,8 +32,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
         this.mainActivity = mainActivity;
     }
 
-    @NonNull
-    @Override
+    @NonNull @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {//ilk açılış inflate
         View view = layoutInflater.inflate(R.layout.list_item, parent,false);
         return new MyViewHolder(view);
