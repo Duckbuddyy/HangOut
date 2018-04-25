@@ -2,6 +2,9 @@ package com.duckbuddy.hangout;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +25,10 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.navigationDrawerItems = navigationDrawerItems;
+
     }
 
-    @NonNull
-    @Override
+    @NonNull @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.drawer_item,parent,false);
         MyViewHolder holder = new MyViewHolder(view);
@@ -54,7 +57,19 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, drawerTitle.getText().toString(), Toast.LENGTH_SHORT).show();
+                    if(position == 1){;
+                        FavorilerFragment favoriFragment = new FavorilerFragment();
+                        FragmentTransaction fragmentTransaction=MainActivity.fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(MainActivity.frameLayout.getId(),favoriFragment);
+                        fragmentTransaction.commit();
+                    }
+                    else{
+                        MainFragment mainFragment = new MainFragment();
+                        FragmentTransaction fragmentTransaction=MainActivity.fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(MainActivity.frameLayout.getId(),mainFragment);
+                        fragmentTransaction.commit();
+                    }
+                    MainActivity.drawerLayout.closeDrawer(GravityCompat.START);
                 }
             });
         }
@@ -66,4 +81,5 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
         }
 
     }
+
 }

@@ -2,25 +2,25 @@ package com.duckbuddy.hangout;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.Toast;
-import java.util.ArrayList;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static FrameLayout frameLayout;
+    public static FragmentManager fragmentManager;
+    public static DrawerLayout drawerLayout;
     public static Database veritabani;
+    public static CafeAdapter cafeAdapter;
+    public static LayoutAnimationController animationController;
     Toolbar toolbar;
-    RecyclerView recyclerView;
-    CafeAdapter cafeAdapter, cafeAdapter2;
-    LayoutAnimationController animationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,62 +29,28 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setAllowReturnTransitionOverlap(false);
 
         veritabaniKur();
-        recyclerViewAyarla();
+        fragmentAyarla();
         toolbarAyarla();
         drawerAyarla();
     }
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Çıkış")
-                .setMessage("Uygulamadan çıkmak istiyor musunuz ?")
-                .setNegativeButton("Hayır", null)
-                .setPositiveButton("Evet", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                        System.exit(0);
-                    }
-                })
-                .create().show();
-    }
-
-    private void drawerAyarla() {
-        NavigationDrawerFragment navigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment);
-        DrawerLayout drawerLayout= findViewById(R.id.drawerLayout);
-
-        navigationDrawerFragment.setUpNavigationDrawer(drawerLayout,toolbar);
-    }
-
-    private void recyclerViewAyarla() {
-        recyclerView = findViewById(R.id.recyclerView);
-        cafeAdapter = new CafeAdapter(this,veritabani.tumKafeleriAl(),this);
-
-        recyclerView.setAdapter(cafeAdapter);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        animationController = AnimationUtils.loadLayoutAnimation(getApplicationContext(),R.anim.recycler_animation_top);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setLayoutAnimation(animationController);
-    }
-
-    private void toolbarAyarla() {
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.menu_main);
-
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.ara:
-
-                        break;
-                }
-                return true;
-            }
-        });
+        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
+        else
+            new AlertDialog.Builder(this)
+                    .setTitle("Çıkış")
+                    .setMessage("Uygulamadan çıkmak istiyor musunuz ?")
+                    .setNegativeButton("Hayır", null)
+                    .setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                            System.exit(0);
+                        }
+                    })
+                    .create().show();
     }
 
     private void veritabaniKur() {
@@ -132,4 +98,37 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.indir3,
                 3,0,41.6613592,26.5834329));
     }
+
+    private void fragmentAyarla() {
+        frameLayout = findViewById(R.id.frameLayout);
+        MainFragment mainFragment = new MainFragment();
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(frameLayout.getId(),mainFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void toolbarAyarla() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.menu_main);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ara:
+
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    private void drawerAyarla() {
+        NavigationDrawerFragment navigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationDrawerFragment.setUpNavigationDrawer(drawerLayout,toolbar);
+    }
+
 }
