@@ -23,7 +23,6 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
 
     private Context context;
     private ArrayList<Cafe> cafeList;
-    private ArrayList<Cafe> filteredCafeList;
     private LayoutInflater layoutInflater;
     private Activity activity;
     private boolean favouriteFragment;
@@ -32,7 +31,6 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.cafeList = cafeList;
-        filteredCafeList = cafeList;
         this.favouriteFragment = favouriteFragment;
         this.activity = activity;
     }
@@ -51,7 +49,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
 
     @Override
     public int getItemCount() {//listenin eleman sayısı
-        return filteredCafeList.size();
+        return cafeList.size();
     }
 
     public void deleteFavouriteDatabase(int position){
@@ -60,28 +58,10 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
         notifyItemRangeChanged(position,cafeList.size());
     }
 
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String searchingCafe = charSequence.toString();
-
-                if (searchingCafe.isEmpty())
-                    filteredCafeList = cafeList;
-                else
-                    filteredCafeList = MainActivity.veritabani.cafeFiltrele(searchingCafe);
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = filteredCafeList;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredCafeList = (ArrayList<Cafe>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
+    public void filterAdapter(ArrayList<Cafe> newCafeList) {
+        cafeList = new ArrayList<>();
+        cafeList.addAll(newCafeList);
+        notifyDataSetChanged();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{//xmlden javaya findviewbyid

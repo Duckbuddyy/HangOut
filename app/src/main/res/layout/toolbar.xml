@@ -7,6 +7,7 @@
     android:background="@color/colorPrimary"
     android:elevation="10dp"
     android:theme="@style/ToolbarTheme"
+    android:layout_alignParentTop="true"
     app:layout_collapseMode="pin"
     >
 

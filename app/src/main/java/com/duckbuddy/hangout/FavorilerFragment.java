@@ -11,7 +11,9 @@ import android.view.animation.AnimationUtils;
 
 public class FavorilerFragment extends Fragment {
     RecyclerView recyclerView;
-    public FavorilerFragment() { }
+    public FavorilerFragment() {
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

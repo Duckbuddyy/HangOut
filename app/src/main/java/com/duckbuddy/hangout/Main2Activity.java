@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 
@@ -39,6 +40,8 @@ public class Main2Activity extends AppCompatActivity {
         position = getIntent().getIntExtra("Pozisyon", 0);
         cafe = MainActivity.veritabani.cafeAl(position);
         toolbarAyarla();
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
+        ratingBar.setRating((float)cafe.getCafeYildizi());
 
         //textView = findViewById(R.id.textView);
         //imageView2 = findViewById(R.id.imageView2);

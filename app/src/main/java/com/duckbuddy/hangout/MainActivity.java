@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public static Database veritabani;
     public static CafeAdapter cafeAdapter;
     public static LayoutAnimationController animationController;
-    Toolbar toolbar;
+    Toolbar toolbar,searchToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentAyarla();
         toolbarAyarla();
         drawerAyarla();
+
     }
 
     @Override
@@ -116,30 +118,37 @@ public class MainActivity extends AppCompatActivity {
     private void toolbarAyarla() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_main);
-        Menu menu = toolbar.getMenu();
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) { return false; }
-
-            @Override
-            public boolean onQueryTextChange(String arananCafe) {
-                cafeAdapter.getFilter().filter(arananCafe);
-                return true;
-            }
-        });
-
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.search:
+
                         break;
                 }
                 return true;
             }
         });
+
+        Menu menu = toolbar.getMenu();
+        final MenuItem searchItem = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(!searchView.isIconified())
+                    searchView.setIconified(true);
+                searchItem.collapseActionView();
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String arananCafe) {
+                final ArrayList<Cafe> filtreList = filtre(veritabani.tumKafeleriAl(),arananCafe);
+                cafeAdapter.filterAdapter(filtreList);
+                return true;
+            }
+        });
+
     }
 
     private void drawerAyarla() {
@@ -148,5 +157,15 @@ public class MainActivity extends AppCompatActivity {
         navigationDrawerFragment.setUpNavigationDrawer(drawerLayout,toolbar);
     }
 
+    private ArrayList<Cafe> filtre (ArrayList<Cafe> cafeler, String query){
+        query = query.toLowerCase();
+        final ArrayList<Cafe> filteredModeList = new ArrayList<>();
+        for(Cafe cafe : cafeler) {
+            String text = cafe.getCafeIsmi().toLowerCase();
+            if(text.startsWith(query))
+                filteredModeList.add(cafe);
+        }
+        return filteredModeList;
+    }
 
 }
