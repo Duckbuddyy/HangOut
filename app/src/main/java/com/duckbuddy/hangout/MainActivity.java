@@ -8,10 +8,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.animation.LayoutAnimationController;
 import android.widget.FrameLayout;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.support.v7.widget.SearchView;
+
 
 public class MainActivity extends AppCompatActivity {
     public static FrameLayout frameLayout;
@@ -50,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
                             System.exit(0);
                         }
                     })
-                    .create().show();
+                    .create()
+                    .show();
+
     }
 
     private void veritabaniKur() {
@@ -111,13 +116,25 @@ public class MainActivity extends AppCompatActivity {
     private void toolbarAyarla() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_main);
+        Menu menu = toolbar.getMenu();
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { return false; }
+
+            @Override
+            public boolean onQueryTextChange(String arananCafe) {
+                cafeAdapter.getFilter().filter(arananCafe);
+                return true;
+            }
+        });
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.ara:
-
+                    case R.id.search:
                         break;
                 }
                 return true;
@@ -130,5 +147,6 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationDrawerFragment.setUpNavigationDrawer(drawerLayout,toolbar);
     }
+
 
 }

@@ -13,7 +13,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:paddingTop="12dp">
+        android:paddingTop="12dp"
+        android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

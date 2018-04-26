@@ -13,6 +13,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,13 +23,17 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
 
     private Context context;
     private ArrayList<Cafe> cafeList;
+    private ArrayList<Cafe> filteredCafeList;
     private LayoutInflater layoutInflater;
     private Activity activity;
+    private boolean favouriteFragment;
 
-    CafeAdapter(Context context, ArrayList<Cafe> cafeList,Activity activity){
+    CafeAdapter(Context context, ArrayList<Cafe> cafeList,Activity activity, Boolean favouriteFragment){
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.cafeList = cafeList;
+        filteredCafeList = cafeList;
+        this.favouriteFragment = favouriteFragment;
         this.activity = activity;
     }
 
@@ -46,13 +51,37 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
 
     @Override
     public int getItemCount() {//listenin eleman sayısı
-        return cafeList.size();
+        return filteredCafeList.size();
     }
 
     public void deleteFavouriteDatabase(int position){
         cafeList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position,cafeList.size());
+    }
+
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String searchingCafe = charSequence.toString();
+
+                if (searchingCafe.isEmpty())
+                    filteredCafeList = cafeList;
+                else
+                    filteredCafeList = MainActivity.veritabani.cafeFiltrele(searchingCafe);
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredCafeList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredCafeList = (ArrayList<Cafe>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{//xmlden javaya findviewbyid
@@ -73,26 +102,28 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
                 public void onClick(View view) {
                     final Animator animator = AnimatorInflater.loadAnimator(context, R.animator.favourite_animation);
                     animator.setTarget(iconfavourite);
-                    if (MainActivity.veritabani.cafeFavoriMi(position) == 0) {
+                    final int veritabaniPosition = MainActivity.veritabani.cafeIdAl(cafeTittle.getText().toString());
+                    if (MainActivity.veritabani.cafeFavoriMi(veritabaniPosition) == 0) {
                         iconfavourite.setImageResource(R.drawable.ic_favourite_fill);
-                        MainActivity.veritabani.cafeFavoriDegistir(position);
+                        MainActivity.veritabani.cafeFavoriDegistir(veritabaniPosition);
                         Snackbar snackbar = Snackbar.make(view, cafeTittle.getText() + " Favorilerinize Eklendi !", Snackbar.LENGTH_SHORT);
                         snackbar.setAction("Geri Al", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 iconfavourite.setImageResource(R.drawable.ic_favourite_border);
                                 Snackbar.make(view, cafeTittle.getText() + " Favorilerinizden Çıkarıldı !", Snackbar.LENGTH_SHORT).show();
-                                MainActivity.veritabani.cafeFavoriDegistir(position);
+                                MainActivity.veritabani.cafeFavoriDegistir(veritabaniPosition);
                                 animator.start();
                                 }
                             });
                         snackbar.show();
                         animator.start();
                     } else {
-                        MainActivity.veritabani.cafeFavoriDegistir(position);
+                        MainActivity.veritabani.cafeFavoriDegistir(veritabaniPosition);
                         Snackbar.make(view, cafeTittle.getText() + " Favorilerinizden Çıkarıldı !", Snackbar.LENGTH_SHORT).show();
                         iconfavourite.setImageResource(R.drawable.ic_favourite_border);
                         animator.start();
+                        if(favouriteFragment) deleteFavouriteDatabase(position);
                     }
                 }
             });
@@ -104,7 +135,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
                     Pair pair = new Pair<View, String>(cafePicture,"iv_effect");
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,pair);
                     Intent intent = new Intent (v.getContext(), Main2Activity.class);
-                    intent.putExtra("Pozisyon",position);
+                    intent.putExtra("Pozisyon",MainActivity.veritabani.cafeIdAl(cafeTittle.getText().toString()));
                     v.getContext().startActivity(intent,options.toBundle());
                 }
             });
@@ -118,6 +149,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
             this.position = position;
             this.cafe = cafe;
         }
+
     }
 
 }

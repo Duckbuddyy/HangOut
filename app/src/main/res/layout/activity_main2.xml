@@ -9,7 +9,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="256dp"
+        android:layout_height="230dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -30,13 +30,15 @@
                 android:transitionName="iv_effect"
                 android:scaleType="centerCrop"
                 />
+            <!--android:scaleType="centerCrop"-->
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbarCafe"
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize"
                 android:elevation="10dp"
                 android:theme="@style/ToolbarTheme"
+                app:navigationIcon="?attr/homeAsUpIndicator"
                 app:layout_collapseMode="pin"/>
 
 
@@ -52,6 +54,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">

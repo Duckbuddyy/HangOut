@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 
 public class MainFragment extends Fragment {
-    RecyclerView recyclerView;
+    public static RecyclerView recyclerViewMain;
     public MainFragment() {}
 
     @Override
@@ -24,14 +24,14 @@ public class MainFragment extends Fragment {
 
 
     private void recyclerViewAyarla(View view) {
-        recyclerView = view.findViewById(R.id.recyclerView);
-        MainActivity.cafeAdapter = new CafeAdapter(getContext(),MainActivity.veritabani.tumKafeleriAl(),getActivity());
-        recyclerView.setAdapter(MainActivity.cafeAdapter);
+        recyclerViewMain = view.findViewById(R.id.recyclerView);
+        MainActivity.cafeAdapter = new CafeAdapter(getContext(),MainActivity.veritabani.tumKafeleriAl(),getActivity(),false);
+        recyclerViewMain.setAdapter(MainActivity.cafeAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         MainActivity.animationController = AnimationUtils.loadLayoutAnimation(getContext(),R.anim.recycler_animation_top);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setLayoutAnimation(MainActivity.animationController);
+        recyclerViewMain.setLayoutManager(linearLayoutManager);
+        recyclerViewMain.setLayoutAnimation(MainActivity.animationController);
     }
 
 }

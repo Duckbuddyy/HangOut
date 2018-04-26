@@ -4,10 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/ara"
+        android:id="@+id/search"
         android:icon="@drawable/ic_toolbar_search"
         android:title="@string/ara"
         android:orderInCategory="100"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        >
     </item>
 </menu>

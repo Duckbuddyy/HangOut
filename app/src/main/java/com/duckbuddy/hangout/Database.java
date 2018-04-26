@@ -290,4 +290,40 @@ public class Database extends SQLiteOpenHelper {
         return returnValue;
     }
 
+    public ArrayList<Cafe> cafeFiltrele(String arananIsim) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sqlFilter = "SELECT * FROM " + TABLO_ISMI + " WHERE " + KAFE_ISIM + " LIKE '"+ arananIsim + "%'";
+        Cursor cursor = db.rawQuery(sqlFilter, null);
+        ArrayList<Cafe> returnCafeArray = new ArrayList<>();
+
+        int kafeIsmiIndex = cursor.getColumnIndex(KAFE_ISIM);
+        int kafeAdresiIndex = cursor.getColumnIndex(KAFE_ADRES);
+        int kafeTelefonuIndex = cursor.getColumnIndex(KAFE_TELEFON);
+        int kafeFotografIndex = cursor.getColumnIndex(KAFE_FOTOGRAF);
+        int kafeFotografIndex2 = cursor.getColumnIndex(KAFE_FOTOGRAF2);
+        int kafeFotografIndex3 = cursor.getColumnIndex(KAFE_FOTOGRAF3);
+        int kafeYildiziIndex = cursor.getColumnIndex(KAFE_YILDIZ);
+        int kafeFavoriIndex = cursor.getColumnIndex(KAFE_FAVORI);
+        int kafeEnlemIndex = cursor.getColumnIndex(KAFE_ENLEM);
+        int kafeBoylamIndex = cursor.getColumnIndex(KAFE_BOYLAM);
+
+        cursor.moveToFirst();
+
+        if(cursor.moveToFirst())
+            do {
+                returnCafeArray.add(new Cafe(cursor.getString(kafeIsmiIndex),
+                        cursor.getString(kafeAdresiIndex),
+                        cursor.getString(kafeTelefonuIndex),
+                        cursor.getInt(kafeFotografIndex),
+                        cursor.getInt(kafeFotografIndex2),
+                        cursor.getInt(kafeFotografIndex3),
+                        cursor.getInt(kafeYildiziIndex),
+                        cursor.getInt(kafeFavoriIndex),
+                        cursor.getDouble(kafeEnlemIndex),
+                        cursor.getDouble(kafeBoylamIndex)));
+            }while (cursor.moveToNext());
+        cursor.close();
+        db.close();
+        return returnCafeArray;
+    }
 }

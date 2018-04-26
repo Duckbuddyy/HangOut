@@ -22,7 +22,7 @@ public class FavorilerFragment extends Fragment {
 
     private void recyclerViewAyarla(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
-        MainActivity.cafeAdapter = new CafeAdapter(getContext(),MainActivity.veritabani.tumFavorileriAl(),getActivity());
+        MainActivity.cafeAdapter = new CafeAdapter(getContext(),MainActivity.veritabani.tumFavorileriAl(),getActivity(),true);
         recyclerView.setAdapter(MainActivity.cafeAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
