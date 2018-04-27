@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:propertyName="translationX"
     android:duration="400"
-    android:valueFrom="0"
+    android:valueFrom="150"
     android:valueType="floatType"
-    android:valueTo="150">
+    android:valueTo="0">
 
 </objectAnimator>

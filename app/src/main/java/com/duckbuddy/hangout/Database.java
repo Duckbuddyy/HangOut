@@ -290,7 +290,7 @@ public class Database extends SQLiteOpenHelper {
         return returnValue;
     }
 
-    public ArrayList<Cafe> cafeFiltrele(String arananIsim) {
+    public ArrayList<Cafe> cafeAra(String arananIsim) {
         SQLiteDatabase db = this.getReadableDatabase();
         String sqlFilter = "SELECT * FROM " + TABLO_ISMI + " WHERE " + KAFE_ISIM + " LIKE '"+ arananIsim + "%'";
         Cursor cursor = db.rawQuery(sqlFilter, null);

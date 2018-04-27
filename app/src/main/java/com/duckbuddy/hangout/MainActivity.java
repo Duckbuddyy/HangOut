@@ -1,5 +1,7 @@
 package com.duckbuddy.hangout;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     public static CafeAdapter cafeAdapter;
     public static LayoutAnimationController animationController;
     Toolbar toolbar;
+    MenuItem searchItem;
+    public static SearchView searchView;
+    String oncekiAranan = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,21 +122,9 @@ public class MainActivity extends AppCompatActivity {
     private void toolbarAyarla() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_main);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.search:
-
-                        break;
-                }
-                return true;
-            }
-        });
-
         Menu menu = toolbar.getMenu();
-        final MenuItem searchItem = menu.findItem(R.id.search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -142,8 +135,16 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String arananCafe) {
-                final ArrayList<Cafe> filtreList = filtre(veritabani.tumKafeleriAl(),arananCafe);
-                cafeAdapter.filterAdapter(filtreList);
+                final ArrayList<Cafe> arananListe = veritabani.cafeAra(arananCafe);
+                if(oncekiAranan.length() < arananCafe.length()) {
+                    cafeAdapter.filterAdapter(arananListe);
+                    oncekiAranan = arananCafe;
+                }
+                else {
+                    cafeAdapter.defilterAdapter();
+                    oncekiAranan = arananCafe;
+                    cafeAdapter.filterAdapter(arananListe);
+                }
                 return true;
             }
         });
@@ -154,17 +155,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationDrawerFragment navigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationDrawerFragment.setUpNavigationDrawer(drawerLayout,toolbar);
-    }
-
-    private ArrayList<Cafe> filtre (ArrayList<Cafe> cafeler, String query){
-        query = query.toLowerCase();
-        final ArrayList<Cafe> filteredModeList = new ArrayList<>();
-        for(Cafe cafe : cafeler) {
-            String text = cafe.getCafeIsmi().toLowerCase();
-            if(text.startsWith(query))
-                filteredModeList.add(cafe);
-        }
-        return filteredModeList;
     }
 
 }

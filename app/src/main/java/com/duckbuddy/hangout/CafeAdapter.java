@@ -19,7 +19,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
-
     private Context context;
     private ArrayList<Cafe> cafeList;
     private LayoutInflater layoutInflater;
@@ -58,10 +57,47 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
     }
 
     public void filterAdapter(ArrayList<Cafe> newCafeList) {
-        cafeList = new ArrayList<>();
-        cafeList.addAll(newCafeList);
-        notifyDataSetChanged();
+        boolean buldu;
+        for(int i = 0; i < cafeList.size(); i++){
+            buldu = false;
+            for(int j = 0; j < newCafeList.size(); j++){
+                if(cafeList.get(i).getCafeIsmi().equals(newCafeList.get(j).getCafeIsmi())){
+                    buldu = true;
+                    break;
+                }
+            }
+            if(!buldu){
+                cafeList.remove(i);
+                notifyItemRemoved(i);
+                notifyItemRangeChanged(i,cafeList.size());
+                i--;
+            }
+        }
     }
+
+    public void defilterAdapter() {
+        ArrayList<Cafe> tamListe = MainActivity.veritabani.tumKafeleriAl();
+        for(int i = 0; i < tamListe.size();i++) {
+            if(cafeList.size() == 0){
+                cafeList.add(i, tamListe.get(i));
+                notifyItemInserted(i);
+                notifyItemRangeChanged(i, cafeList.size());
+            }
+            else if (i >= cafeList.size()) {
+                cafeList.add(i, tamListe.get(i));
+                notifyItemInserted(i);
+                notifyItemRangeChanged(i, cafeList.size());
+            }
+            else if (!tamListe.get(i).getCafeIsmi().equals(cafeList.get(i).getCafeIsmi())) {
+                cafeList.add(i, tamListe.get(i));
+                notifyItemInserted(i);
+                notifyItemRangeChanged(i, cafeList.size());
+                i--;
+            }
+
+        }
+    }
+
 
     class MyViewHolder extends RecyclerView.ViewHolder{//xmlden javaya findviewbyid
         Cafe cafe;

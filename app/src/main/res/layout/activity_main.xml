@@ -14,8 +14,8 @@
         android:layout_height="wrap_content">
 
         <include
+            android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
-
 
     </android.support.design.widget.AppBarLayout>
 
@@ -28,7 +28,7 @@
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
         </FrameLayout>
 

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -62,6 +63,8 @@ public class Main2Activity extends AppCompatActivity implements OnMapReadyCallba
         imageView2 = findViewById(R.id.imageView2);
         imageView3 = findViewById(R.id.imageView3);
         ratingBar = findViewById(R.id.ratingBar);
+        MainActivity.animationController = AnimationUtils.loadLayoutAnimation(getApplicationContext(),R.anim.recycler_animation_top);
+        MainActivity.animationController.setDelay((float)0.25);
         constraintLayout.setLayoutAnimation(MainActivity.animationController);
         imageView2.setImageResource(cafe.getCafeFotografId2());
         imageView3.setImageResource(cafe.getCafeFotografId3());

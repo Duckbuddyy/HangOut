@@ -1,5 +1,7 @@
 package com.duckbuddy.hangout;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +20,7 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
     Context context;
     LayoutInflater layoutInflater;
     ArrayList<NavigationDrawerItem> navigationDrawerItems;
+    boolean searchItemGorunurMu = true;
 
     public NavigationDrawerItemAdapter(Context context,ArrayList<NavigationDrawerItem> navigationDrawerItems){
         this.context = context;
@@ -52,17 +55,26 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
             super(itemView);
             drawerTitle = itemView.findViewById(R.id.drawerTitle);
             drawerIcon = itemView.findViewById(R.id.drawerIcon);
+            final Animator animator = AnimatorInflater.loadAnimator(context, R.animator.slide_animation);
+            final Animator animator2 = AnimatorInflater.loadAnimator(context, R.animator.slide_animation_negative);
+            animator.setTarget(MainActivity.searchView);
+            animator2.setTarget(MainActivity.searchView);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(position == 1){
+                        if(searchItemGorunurMu) animator.start();
+                        searchItemGorunurMu = false;
                         FavorilerFragment favoriFragment = new FavorilerFragment();
                         FragmentTransaction fragmentTransaction=MainActivity.fragmentManager.beginTransaction();
                         fragmentTransaction.replace(MainActivity.frameLayout.getId(),favoriFragment);
                         fragmentTransaction.commit();
                     }
                     else{
+                        if(!searchItemGorunurMu) animator2.start();
+                        searchItemGorunurMu = true;
                         MainFragment mainFragment = new MainFragment();
                         FragmentTransaction fragmentTransaction=MainActivity.fragmentManager.beginTransaction();
                         fragmentTransaction.replace(MainActivity.frameLayout.getId(),mainFragment);
