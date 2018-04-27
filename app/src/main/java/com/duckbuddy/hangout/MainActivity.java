@@ -8,14 +8,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.animation.LayoutAnimationController;
-import android.widget.FrameLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.SearchView;
-import java.util.ArrayList;
+import android.view.animation.LayoutAnimationController;
+import android.widget.FrameLayout;
 
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static FrameLayout frameLayout;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public static Database veritabani;
     public static CafeAdapter cafeAdapter;
     public static LayoutAnimationController animationController;
-    Toolbar toolbar,searchToolBar;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentAyarla();
         toolbarAyarla();
         drawerAyarla();
-
     }
 
     @Override

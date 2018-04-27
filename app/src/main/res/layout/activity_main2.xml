@@ -54,7 +54,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include
-            android:id="@+id/linearLayout"
+
             layout="@layout/main2_layout">
         </include>
 

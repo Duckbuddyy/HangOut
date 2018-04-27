@@ -13,32 +13,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-         <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+        <include
+            layout="@layout/toolbar"/>
+
 
     </android.support.design.widget.AppBarLayout>
 
 
-        <android.support.v4.widget.DrawerLayout
-            android:id="@+id/drawerLayout"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:id="@+id/frameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        </FrameLayout>
 
-            </FrameLayout>
+        <fragment
+            android:id="@+id/fragment"
+            android:name="com.duckbuddy.hangout.NavigationDrawerFragment"
+            android:layout_width="270dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" />
 
-            <fragment
-                android:id="@+id/fragment"
-                android:name="com.duckbuddy.hangout.NavigationDrawerFragment"
-                android:layout_width="270dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start" />
-
-        </android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>

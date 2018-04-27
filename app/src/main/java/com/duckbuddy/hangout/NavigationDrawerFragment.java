@@ -1,7 +1,6 @@
 package com.duckbuddy.hangout;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +21,7 @@ public class NavigationDrawerFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_drawer_layout, container,false);
+        View view = inflater.inflate(R.layout.fragment_drawer_layout, container,false);
         setUpRecyclerView(view);
         return view;
     }
