@@ -1,7 +1,5 @@
 package com.duckbuddy.hangout;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.LayoutAnimationController;
 import android.widget.FrameLayout;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {

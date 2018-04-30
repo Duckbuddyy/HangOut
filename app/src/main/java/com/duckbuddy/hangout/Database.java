@@ -26,10 +26,10 @@ public class Database extends SQLiteOpenHelper {
     private static String KAFE_ENLEM = "enlem";
     private static String KAFE_BOYLAM = "boylam";
 
-    private static final String u_TABLO_ISMI = "urun_listesi";
-    private static final String u_id = "uid";
-    private static final String u_isim = "uisim";
-    private static final String u_fiyat = "ufiyat";
+    private static final String U_TABLO_ISMI = "urun_listesi";
+    private static final String URUN_ID = "uid";
+    private static final String URUN_ISIM = "uisim";
+    private static final String URUN_FIYAT = "ufiyat";
 
     public Database(Context context) {
         super(context,VERITABANI_ISMI,null,VERITABANI_VERSIYON);
@@ -49,11 +49,13 @@ public class Database extends SQLiteOpenHelper {
                 + KAFE_FAVORI + " INTEGER, "
                 + KAFE_ENLEM + " DOUBLE, "
                 + KAFE_BOYLAM + " DOUBLE )";
-        String urunTabloYarat ="CREATE TABLE " + u_TABLO_ISMI + "( "
-                + u_id + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + u_isim + " VARCHAR, "
+
+        String urunTabloYarat ="CREATE TABLE " + U_TABLO_ISMI + "( "
+                + URUN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + URUN_ISIM + " VARCHAR, "
                 + KAFE_ID + " INTEGER, "
-                + u_fiyat + " DOUBLE )";
+                + URUN_FIYAT + " DOUBLE )";
+
         db.execSQL(tabloYarat);
         db.execSQL(urunTabloYarat);
     }
@@ -66,7 +68,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void cafeEkle(Cafe cafe){
-        if(!cafeVar(cafe)) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(KAFE_ISIM, cafe.getCafeIsmi());
@@ -81,7 +82,6 @@ public class Database extends SQLiteOpenHelper {
             values.put(KAFE_BOYLAM, cafe.getCafeBoylam());
             db.insert(TABLO_ISMI, null, values);
             db.close();
-        }
     }
 
     public void cafeSil(String kafeIsmi){
@@ -275,21 +275,6 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    private boolean cafeVar(Cafe cafe){
-        String selectQuery = "SELECT * FROM " + TABLO_ISMI + " WHERE isim = \"" + cafe.getCafeIsmi() + "\"";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,null);
-
-        boolean kafeVar = false;
-        cursor.moveToFirst();
-
-        if(cursor.getCount() > 0)
-            kafeVar = true;
-        cursor.close();
-        db.close();
-        return kafeVar;
-    }
-
     public int cafeFavoriMi(int id){
         String selectQuery = "SELECT * FROM " + TABLO_ISMI + " WHERE id=" + (id+1);
         SQLiteDatabase db = this.getReadableDatabase();
@@ -337,4 +322,6 @@ public class Database extends SQLiteOpenHelper {
         db.close();
         return returnCafeArray;
     }
+
+
 }
