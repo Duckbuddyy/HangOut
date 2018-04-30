@@ -158,6 +158,7 @@ public class CafeAdapter extends RecyclerView.Adapter<CafeAdapter.MyViewHolder>{
 
         private void setCafe(Cafe cafe, int position) {
             if(cafe.getFavori() == 1) iconfavourite.setImageResource(R.drawable.ic_favourite_fill);
+            else iconfavourite.setImageResource(R.drawable.ic_favourite_border);
             this.cafeTittle.setText(cafe.getCafeIsmi());
             this.cafeSubTittle.setText(cafe.getCafeAdresi());
             this.cafePicture.setImageResource(cafe.getCafeFotografId());

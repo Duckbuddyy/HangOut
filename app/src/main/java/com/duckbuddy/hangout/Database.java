@@ -26,6 +26,11 @@ public class Database extends SQLiteOpenHelper {
     private static String KAFE_ENLEM = "enlem";
     private static String KAFE_BOYLAM = "boylam";
 
+    private static final String u_TABLO_ISMI = "urun_listesi";
+    private static final String u_id = "uid";
+    private static final String u_isim = "uisim";
+    private static final String u_fiyat = "ufiyat";
+
     public Database(Context context) {
         super(context,VERITABANI_ISMI,null,VERITABANI_VERSIYON);
     }
@@ -44,7 +49,13 @@ public class Database extends SQLiteOpenHelper {
                 + KAFE_FAVORI + " INTEGER, "
                 + KAFE_ENLEM + " DOUBLE, "
                 + KAFE_BOYLAM + " DOUBLE )";
+        String urunTabloYarat ="CREATE TABLE " + u_TABLO_ISMI + "( "
+                + u_id + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + u_isim + " VARCHAR, "
+                + KAFE_ID + " INTEGER, "
+                + u_fiyat + " DOUBLE )";
         db.execSQL(tabloYarat);
+        db.execSQL(urunTabloYarat);
     }
 
     @Override
