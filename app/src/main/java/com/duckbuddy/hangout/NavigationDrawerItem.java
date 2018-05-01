@@ -19,7 +19,7 @@ public class NavigationDrawerItem {
 
     public static ArrayList<NavigationDrawerItem> getItemList(){
         ArrayList<NavigationDrawerItem> itemList = new ArrayList<>();
-        for(int i = 0; i < 2;i++){
+        for(int i = 0; i < 3;i++){
             NavigationDrawerItem item = new NavigationDrawerItem(baslikDizi()[i],iconDizi()[i]);
             itemList.add(item);
         }
@@ -27,11 +27,11 @@ public class NavigationDrawerItem {
     }
 
     private static String[] baslikDizi(){
-        return new String[]{"Anasayfa","Favori Kafeler"};
+        return new String[]{"Anasayfa","Favori Kafeler","Ürün Ara"};
     }
 
     private static int[] iconDizi(){
-        return new int[]{R.drawable.ic_home,R.drawable.ic_favourite_border};
+        return new int[]{R.drawable.ic_home,R.drawable.ic_favourite_border,R.drawable.ic_favourite_border};
     }
 
 }

@@ -1,6 +1,8 @@
 package com.duckbuddy.hangout;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
     public static Database veritabani;
     public static CafeAdapter cafeAdapter;
     public static LayoutAnimationController animationController;
+    public static SearchView searchView;
     Toolbar toolbar;
     MenuItem searchItem;
-    public static SearchView searchView;
     String oncekiAranan = "";
 
     @Override
@@ -33,8 +35,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setAllowReturnTransitionOverlap(false);
+        veritabani = new Database(getApplicationContext());
+        SharedPreferences preferences = this.getSharedPreferences("com.duckbuddyy.hangout", Context.MODE_PRIVATE);
 
-        veritabaniKur();
+        if(preferences.getBoolean("First",true)) {
+            preferences.edit().putBoolean("First", false).apply();
+            veritabaniKur();
+        }
         fragmentAyarla();
         toolbarAyarla();
         drawerAyarla();
@@ -62,49 +69,101 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void veritabaniKur() {
-        veritabani = new Database(getApplicationContext());
-        veritabani.cafeEkle(new Cafe("Leman Kültür",
-                "1. Murat Mahallesi, Zübeyde Hanım Cad. No:28, 22030 Merkez/Edirne",
-                "(0284) 225 69 71",
-                R.drawable.indir,
-                R.drawable.indir2,
-                R.drawable.indir3,
-                4,0,41.667454, 26.576247));
-        veritabani.cafeEkle(new Cafe("David People",
-                "1. Murat Mahallesi, Zübeyde Hanım Cad. No:22, 22030 Merkez/Edirne",
-                "(0284) 225 6971",
-                R.drawable.indir2,
-                R.drawable.indir2,
-                R.drawable.indir3,
+        veritabani.cafeEkle(new Cafe("Pause",
+                "1. Murat Mahallesi, Zübeyde Hanım Cad. No:26, 22030 Merkez/Edirne",
+                "(0284) 212 81 51",
+                R.drawable.pause1,
+                R.drawable.pause2,
+                R.drawable.pause3,
                 5,0,41.667398,26.5760578));
+        veritabani.cafeEkle(new Cafe("Mado",
+                "Abdurrahman Mah. Talat Paşa Cad. No:59 22100 Merkez/Edirne",
+                "(0284) 225 62 36",
+                R.drawable.mado1,
+                R.drawable.mado2,
+                R.drawable.mado3,
+                3,0,41.6613592,26.5834329));
+        veritabani.cafeEkle(new Cafe("İnciraltı",
+                "Balkan Yerleşkesi,Yaşam Merkezi No:5 22000 Merkez/Edirne",
+                "(0284) 236 8081",
+                R.drawable.inciralti,
+                R.drawable.inciralti2,
+                R.drawable.inciralti3,
+                3,0,41.6613592,26.5834329));
+        veritabani.cafeEkle(new Cafe("Loca",
+                "Balkan Yerleşkesi, Yaşam Merkezi 22130 Merkez/Edirne",
+                "(0284) 236 10 00",
+                R.drawable.loca1,
+                R.drawable.loca2,
+                R.drawable.loca3,
+                3,0,41.6613592,26.5834329));
         veritabani.cafeEkle(new Cafe("Kada",
                 "1. Murat Mahallesi, Bülent Alamut Cd. No:9, 22030 Merkez/Edirne",
                 "(0533) 607 8999",
-                R.drawable.indir3,
-                R.drawable.indir2,
-                R.drawable.indir3,
+                R.drawable.kada1,
+                R.drawable.kada2,
+                R.drawable.kada3,
                 3,0,41.6613592,26.5834329));
-        veritabani.cafeEkle(new Cafe("Leman Kültür2",
-                "1. Murat Mahallesi, Zübeyde Hanım Cad. No:28, 22030 Merkez/Edirne",
-                "(0284) 225 69 71",
-                R.drawable.indir4,
-                R.drawable.indir2,
-                R.drawable.indir3,
-                4,0,41.667454, 26.576247));
-        veritabani.cafeEkle(new Cafe("David People2",
-                "1. Murat Mahallesi, Zübeyde Hanım Cad. No:22, 22030 Merkez/Edirne",
-                "(0284) 225 6971",
-                R.drawable.indir,
-                R.drawable.indir2,
-                R.drawable.indir3,
-                5,0,41.667398,26.5760578));
-        veritabani.cafeEkle(new Cafe("Kada2",
-                "1. Murat Mahallesi, Bülent Alamut Cd. No:9, 22030 Merkez/Edirne",
-                "(0533) 607 8999",
-                R.drawable.indir2,
-                R.drawable.indir2,
-                R.drawable.indir3,
-                3,0,41.6613592,26.5834329));
+        veritabani.urunEkle(new Urun("Çay",2.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Kahve",6.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Portakal Suyu",8.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Limonata",7.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Kola",5.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Ayran",2.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Meyveli Soda",3.50,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Türk Kahvesi",5.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Bitki Çayı",7.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Su",2.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Espresso",5.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Mocha",8.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Cappuccino",8.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Sıcak Çikolata",8.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Salep",8.00,veritabani.cafeIdAl("Loca")));
+        veritabani.urunEkle(new Urun("Çay",2.50,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Kahve",6.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Portakal Suyu",8.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Limonata",8.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Kola",6.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Ayran",3.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Meyveli Soda",4.50,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Türk Kahvesi",6.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Bitki Çayı",6.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Su",2.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Espresso",7.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Mocha",8.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Cappuccino",7.00,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Sıcak Çikolata",7.50,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Salep",7.50,veritabani.cafeIdAl("Pause")));
+        veritabani.urunEkle(new Urun("Çay",2.00,veritabani.cafeIdAl("İnciraltı")));
+        veritabani.urunEkle(new Urun("Kahve",4.00,veritabani.cafeIdAl("İnciraltı")));
+        veritabani.urunEkle(new Urun("Portakal Suyu",7.00,veritabani.cafeIdAl("İnciraltı")));
+        veritabani.urunEkle(new Urun("Limonata",7.00,veritabani.cafeIdAl("İnciraltı")));
+        veritabani.urunEkle(new Urun("Kola",3.50,veritabani.cafeIdAl("İnciraltı")));
+        veritabani.urunEkle(new Urun("Ayran",2.00,veritabani.cafeIdAl("İnciraltı")));
+        veritabani.urunEkle(new Urun("Meyveli Soda",2.50,veritabani.cafeIdAl("Sarmaşık")));
+        veritabani.urunEkle(new Urun("Türk Kahvesi",5.00,veritabani.cafeIdAl("Sarmaşık")));
+        veritabani.urunEkle(new Urun("Bitki Çayı",7.00,veritabani.cafeIdAl("Sarmaşık")));
+        veritabani.urunEkle(new Urun("Su",1.00,veritabani.cafeIdAl("Sarmaşık")));
+        veritabani.urunEkle(new Urun("Çay",4.00,veritabani.cafeIdAl("Mado")));
+        veritabani.urunEkle(new Urun("Kahve",9.00,veritabani.cafeIdAl("Mado")));
+        veritabani.urunEkle(new Urun("Portakal Suyu",12.00,veritabani.cafeIdAl("Mado")));
+        veritabani.urunEkle(new Urun("Limonata",10.00,veritabani.cafeIdAl("Mado")));
+        veritabani.urunEkle(new Urun("Kola",6.00,veritabani.cafeIdAl("Mado")));
+        veritabani.urunEkle(new Urun("Ayran",5.50,veritabani.cafeIdAl("Mado")));
+        veritabani.urunEkle(new Urun("Meyveli Soda",4.50,veritabani.cafeIdAl("Mado")));
+        veritabani.urunEkle(new Urun("Sıcak Çikolata",11.00,veritabani.cafeIdAl("Mado")));
+        veritabani.urunEkle(new Urun("Çay",2.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Kahve",5.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Limonata",6.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Kola",4.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Ayran",2.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Meyveli Soda",3.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Türk Kahvesi",3.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Bitki Çayı",5.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Su",1.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Mocha",7.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Sıcak Çikolata",7.50,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Salep",6.00,veritabani.cafeIdAl("Kada")));
     }
 
     private void fragmentAyarla() {

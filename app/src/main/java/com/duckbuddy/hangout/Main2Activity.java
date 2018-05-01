@@ -19,17 +19,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class Main2Activity extends AppCompatActivity implements OnMapReadyCallback {
 
     ConstraintLayout constraintLayout;
     RatingBar ratingBar;
-    TextView textView;
+    TextView urunIsim,urunFiyat;
     ImageView toolbarImage,imageView2,imageView3;
     CollapsingToolbarLayout collapsingToolbarLayout;
     Toolbar toolbarCafe;
     int position;
     GoogleMap mMap;
     Cafe cafe;
+    String urunIsimleri = "",urunFiyatlari = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,16 @@ public class Main2Activity extends AppCompatActivity implements OnMapReadyCallba
         ratingBar.setRating((float) cafe.getCafeYildizi());
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        urunIsim = findViewById(R.id.urunIsim);
+        urunFiyat = findViewById(R.id.urunFiyat);
+        ArrayList<Urun> kafeUrunleri = MainActivity.veritabani.cafeUrunleriAl(position);
+        for(int i = 0; i < kafeUrunleri.size();i++){
+            urunIsimleri += kafeUrunleri.get(i).getUrunIsmi()+"\n";
+            urunFiyatlari += kafeUrunleri.get(i).getUrunFiyati()+"\n";
+        }
+        urunIsim.setText(urunIsimleri);
+        urunFiyat.setText(urunFiyatlari);
+
     }
 
     private void toolbarAyarla(){

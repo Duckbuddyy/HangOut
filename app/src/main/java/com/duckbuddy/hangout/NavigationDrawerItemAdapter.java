@@ -26,7 +26,6 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.navigationDrawerItems = navigationDrawerItems;
-
     }
 
     @NonNull @Override
@@ -60,7 +59,6 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
             animator.setTarget(MainActivity.searchView);
             animator2.setTarget(MainActivity.searchView);
 
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -72,12 +70,20 @@ public class NavigationDrawerItemAdapter extends RecyclerView.Adapter<Navigation
                         fragmentTransaction.replace(MainActivity.frameLayout.getId(),favoriFragment);
                         fragmentTransaction.commit();
                     }
-                    else{
+                    else if(position == 0){
                         if(!searchItemGorunurMu) animator2.start();
                         searchItemGorunurMu = true;
                         MainFragment mainFragment = new MainFragment();
                         FragmentTransaction fragmentTransaction=MainActivity.fragmentManager.beginTransaction();
                         fragmentTransaction.replace(MainActivity.frameLayout.getId(),mainFragment);
+                        fragmentTransaction.commit();
+                    }
+                    else if(position == 2){
+                        if(searchItemGorunurMu) animator.start();
+                        searchItemGorunurMu = false;
+                        UrunFragment urunFragment = new UrunFragment();
+                        FragmentTransaction fragmentTransaction=MainActivity.fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(MainActivity.frameLayout.getId(),urunFragment);
                         fragmentTransaction.commit();
                     }
                     MainActivity.drawerLayout.closeDrawer(GravityCompat.START);

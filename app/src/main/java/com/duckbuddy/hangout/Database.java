@@ -68,20 +68,20 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void cafeEkle(Cafe cafe){
-            SQLiteDatabase db = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(KAFE_ISIM, cafe.getCafeIsmi());
-            values.put(KAFE_ADRES, cafe.getCafeAdresi());
-            values.put(KAFE_TELEFON, cafe.getCafeTelefonu());
-            values.put(KAFE_FOTOGRAF, cafe.getCafeFotografId());
-            values.put(KAFE_FOTOGRAF2, cafe.getCafeFotografId2());
-            values.put(KAFE_FOTOGRAF3, cafe.getCafeFotografId3());
-            values.put(KAFE_YILDIZ, cafe.getCafeYildizi());
-            values.put(KAFE_FAVORI, cafe.getFavori());
-            values.put(KAFE_ENLEM, cafe.getCafeEnlem());
-            values.put(KAFE_BOYLAM, cafe.getCafeBoylam());
-            db.insert(TABLO_ISMI, null, values);
-            db.close();
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KAFE_ISIM, cafe.getCafeIsmi());
+        values.put(KAFE_ADRES, cafe.getCafeAdresi());
+        values.put(KAFE_TELEFON, cafe.getCafeTelefonu());
+        values.put(KAFE_FOTOGRAF, cafe.getCafeFotografId());
+        values.put(KAFE_FOTOGRAF2, cafe.getCafeFotografId2());
+        values.put(KAFE_FOTOGRAF3, cafe.getCafeFotografId3());
+        values.put(KAFE_YILDIZ, cafe.getCafeYildizi());
+        values.put(KAFE_FAVORI, cafe.getFavori());
+        values.put(KAFE_ENLEM, cafe.getCafeEnlem());
+        values.put(KAFE_BOYLAM, cafe.getCafeBoylam());
+        db.insert(TABLO_ISMI, null, values);
+        db.close();
     }
 
     public void cafeSil(String kafeIsmi){
@@ -323,5 +323,60 @@ public class Database extends SQLiteOpenHelper {
         return returnCafeArray;
     }
 
+    public void urunEkle(Urun urun){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(URUN_ISIM,urun.getUrunIsmi());
+        values.put(URUN_FIYAT,urun.getUrunFiyati());
+        values.put(KAFE_ID,urun.getKafeID());
+        db.insert(U_TABLO_ISMI,null,values);
+        db.close();
+    }
+
+    public ArrayList<Urun> cafeUrunleriAl(int cafeId){
+        String selectQuery = "SELECT * FROM " + U_TABLO_ISMI + " WHERE " + KAFE_ID + " = \"" + cafeId + "\"";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        ArrayList<Urun> returnUrunArray = new ArrayList<>();
+
+        int urunIsmiIndex = cursor.getColumnIndex(URUN_ISIM);
+        int urunFiyatIndex = cursor.getColumnIndex(URUN_FIYAT);
+        int urunKafeIndex = cursor.getColumnIndex(KAFE_ID);
+
+        cursor.moveToFirst();
+        if(cursor.moveToFirst())
+            do {
+                returnUrunArray.add(new Urun(
+                        cursor.getString(urunIsmiIndex),
+                        cursor.getDouble(urunFiyatIndex),
+                        cursor.getInt(urunKafeIndex)));
+            }while (cursor.moveToNext());
+        cursor.close();
+        db.close();
+        return returnUrunArray;
+    }
+
+    public ArrayList<Urun> urunListesiAl(String urunIsmi){
+        String selectQuery = "SELECT * FROM " + U_TABLO_ISMI + " WHERE " + URUN_ISIM + " = \"" + urunIsmi + "\"";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        ArrayList<Urun> returnUrunArray = new ArrayList<>();
+
+        int urunIsmiIndex = cursor.getColumnIndex(URUN_ISIM);
+        int urunFiyatIndex = cursor.getColumnIndex(URUN_FIYAT);
+        int urunKafeIndex = cursor.getColumnIndex(KAFE_ID);
+
+        cursor.moveToFirst();
+        if(cursor.moveToFirst())
+            do {
+                returnUrunArray.add(new Urun(
+                        cursor.getString(urunIsmiIndex),
+                        cursor.getDouble(urunFiyatIndex),
+                        cursor.getInt(urunKafeIndex)));
+            }while (cursor.moveToNext());
+        cursor.close();
+        db.close();
+        return returnUrunArray;
+    }
 
 }
