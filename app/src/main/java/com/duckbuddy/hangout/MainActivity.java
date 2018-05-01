@@ -1,8 +1,6 @@
 package com.duckbuddy.hangout;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.LayoutAnimationController;
 import android.widget.FrameLayout;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,13 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setAllowReturnTransitionOverlap(false);
-        veritabani = new Database(getApplicationContext());
-        SharedPreferences preferences = this.getSharedPreferences("com.duckbuddyy.hangout", Context.MODE_PRIVATE);
 
-        if(preferences.getBoolean("First",true)) {
-            preferences.edit().putBoolean("First", false).apply();
-            veritabaniKur();
-        }
+        veritabaniKur();
         fragmentAyarla();
         toolbarAyarla();
         drawerAyarla();
@@ -69,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void veritabaniKur() {
+        veritabani = new Database(getApplicationContext());
         veritabani.cafeEkle(new Cafe("Pause",
                 "1. Murat Mahallesi, Zübeyde Hanım Cad. No:26, 22030 Merkez/Edirne",
                 "(0284) 212 81 51",
@@ -85,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 3,0,41.6613592,26.5834329));
         veritabani.cafeEkle(new Cafe("İnciraltı",
                 "Balkan Yerleşkesi,Yaşam Merkezi No:5 22000 Merkez/Edirne",
-                "(0284) 236 8081",
+                "(0284) 236 80 81",
                 R.drawable.inciralti,
                 R.drawable.inciralti2,
                 R.drawable.inciralti3,
@@ -99,10 +94,17 @@ public class MainActivity extends AppCompatActivity {
                 3,0,41.6613592,26.5834329));
         veritabani.cafeEkle(new Cafe("Kada",
                 "1. Murat Mahallesi, Bülent Alamut Cd. No:9, 22030 Merkez/Edirne",
-                "(0533) 607 8999",
+                "(0533) 607 89 99",
                 R.drawable.kada1,
                 R.drawable.kada2,
                 R.drawable.kada3,
+                3,0,41.6613592,26.5834329));
+        veritabani.cafeEkle(new Cafe("Stanza",
+                "1. Murat Mahallesi, İnci Residence Altı, 22000 Merkez/Edirne",
+                "(0284) 236 01 06",
+                R.drawable.stanza1,
+                R.drawable.stanza2,
+                R.drawable.stanza3,
                 3,0,41.6613592,26.5834329));
         veritabani.urunEkle(new Urun("Çay",2.00,veritabani.cafeIdAl("Loca")));
         veritabani.urunEkle(new Urun("Kahve",6.00,veritabani.cafeIdAl("Loca")));
@@ -164,6 +166,18 @@ public class MainActivity extends AppCompatActivity {
         veritabani.urunEkle(new Urun("Mocha",7.00,veritabani.cafeIdAl("Kada")));
         veritabani.urunEkle(new Urun("Sıcak Çikolata",7.50,veritabani.cafeIdAl("Kada")));
         veritabani.urunEkle(new Urun("Salep",6.00,veritabani.cafeIdAl("Kada")));
+        veritabani.urunEkle(new Urun("Çay",2.00,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Su",2.00,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Espresso",3.00,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Sıcak Çikolata",7.00,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Mocha",6.50,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Meyveli Soda",2.50,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Ayran",2.50,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Limonata",5.00,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Portakal Suyu",8.00,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Kola",4.00,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Bitki Çayı",6.00,veritabani.cafeIdAl("Stanza")));
+        veritabani.urunEkle(new Urun("Türk Kahvesi",5.00,veritabani.cafeIdAl("Stanza")));
     }
 
     private void fragmentAyarla() {

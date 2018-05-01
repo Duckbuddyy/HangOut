@@ -271,7 +271,7 @@ public class Database extends SQLiteOpenHelper {
 
     public void tumKafeleriSil(){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLO_ISMI, null, null);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLO_ISMI);
         db.close();
     }
 
